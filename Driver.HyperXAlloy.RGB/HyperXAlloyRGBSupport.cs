@@ -12,136 +12,135 @@ namespace Driver.HyperXAlloy.RGB
 {
     public class HyperXKeyboardSupport
     {
-        public static string[] KeyNames = new string[]
-{
-    "Key: Escape",
-    "Key: `",
-    "Key: Tab",
-    "Key: Caps Lock",
-    "Key: Left Shift",
-    "Key: Left Control",
-    "Key: F12",
-    "Key: =",
-    "Key: F9",
-    "Key: 9",
-    "Key: O",
-    "Key: L",
-    "Key: ,",
-    "Key: Menu",
-    "Key: Enter (ISO)",
-    "Key: Left Arrow",
-    "Key: F1",
-    "Key: 1",
-    "Key: Q",
-    "Key: A",
-    "Key: \\ (ISO)",
-    "Key: Left Windows",
-    "Key: Print Screen",
-    "Key: F10",
-    "Key: 0",
-    "Key: P",
-    "Key: ;",
-    "Key: .",
-    "Key: Enter",
-    "Key: Down Arrow",
-    "Key: F2",
-    "Key: 2",
-    "Key: W",
-    "Key: S",
-    "Key: Z",
-    "Key: Left Alt",
-    "Key: Scroll Lock",
-    "Key: Backspace",
-    "Key: F11",
-    "Key: -",
-    "Key: [",
-    "Key: '",
-    "Key: /",
-    "Key: Right Arrow",
-    "Key: F3",
-    "Key: 3",
-    "Key: E",
-    "Key: D",
-    "Key: X",
-    "Key: Pause/Break",
-    "Key: Delete",
-    "Key: Number Pad 7",
-    "Key: Num Lock",
-    "Key: Number Pad 6",
-    "Key: F4",
-    "Key: 4",
-    "Key: R",
-    "Key: F",
-    "Key: C",
-    "Key: Space",
-    "Key: Insert",
-    "Key: End",
-    "Key: Number Pad 8",
-    "Key: Number Pad /",
-    "Key: Number Pad 1",
-    "Key: F5",
-    "Key: 5",
-    "Key: T",
-    "Key: G",
-    "Key: V",
-    "Key: Home",
-    "Key: Page Down",
-    "Key: Number Pad 9",
-    "Key: Number Pad *",
-    "Key: Number Pad 2",
-    "Key: F6",
-    "Key: 6",
-    "Key: Y",
-    "Key: H",
-    "Key: B",
-    "Key: Page Up",
-    "Key: Right Shift",
-    "Key: Number Pad -",
-    "Key: Number Pad 3",
-    "Key: F7",
-    "Key: 7",
-    "Key: U",
-    "Key: J",
-    "Key: N",
-    "Key: Right Alt",
-    "Key: ]",
-    "Key: Right Control",
-    "Key: Number Pad 4",
-    "Key: Number Pad +",
-    "Key: Number Pad 0",
-    "Key: F8",
-    "Key: 8",
-    "Key: I",
-    "Key: K",
-    "Key: M",
-    "Key: Right Windows",
-    "Key: \\ (ANSI)",
-    "Key: Up Arrow",
-    "Key: Number Pad 5",
-    "Key: Number Pad Enter",
-    "Key: Number Pad .",
-    "RGB Strip 1",
-    "RGB Strip 2",
-    "RGB Strip 3",
-    "RGB Strip 4",
-    "RGB Strip 5",
-    "RGB Strip 6",
-    "RGB Strip 7",
-    "RGB Strip 8",
-    "RGB Strip 9",
-    "RGB Strip 10",
-    "RGB Strip 11",
-    "RGB Strip 12",
-    "RGB Strip 13",
-    "RGB Strip 14",
-    "RGB Strip 15",
-    "RGB Strip 16",
-    "RGB Strip 17",
-    "RGB Strip 18",
-    "Key: Media Previous",
-    "Key: Media Play/Pause",
-    "Key: Media Next",
-    "Key: Media Mute"
+        public static string[] KeyNames = {
+    "Escape",
+    "`",
+    "Tab",
+    "Caps Lock",
+    "Left Shift",
+    "Left Control",
+    "F12",
+    "=",
+    "F9",
+    "9",
+    "O",
+    "L",
+    ",",
+    "Menu",
+    "Enter (ISO)",
+    "Left Arrow",
+    "F1",
+    "1",
+    "Q",
+    "A",
+    "\\ (ISO)",
+    "Left Windows",
+    "Print Screen",
+    "F10",
+    "0",
+    "P",
+    ";",
+    ".",
+    "Enter",
+    "Down Arrow",
+    "F2",
+    "2",
+    "W",
+    "S",
+    "Z",
+    "Left Alt",
+    "Scroll Lock",
+    "Backspace",
+    "F11",
+    "-",
+    "[",
+    "'",
+    "/",
+    "Right Arrow",
+    "F3",
+    "3",
+    "E",
+    "D",
+    "X",
+    "Pause/Break",
+    "Delete",
+    "Number Pad 7",
+    "Num Lock",
+    "Number Pad 6",
+    "F4",
+    "4",
+    "R",
+    "F",
+    "C",
+    "Space",
+    "Insert",
+    "End",
+    "Number Pad 8",
+    "Number Pad /",
+    "Number Pad 1",
+    "F5",
+    "5",
+    "T",
+    "G",
+    "V",
+    "Home",
+    "Page Down",
+    "Number Pad 9",
+    "Number Pad *",
+    "Number Pad 2",
+    "F6",
+    "6",
+    "Y",
+    "H",
+    "B",
+    "Page Up",
+    "Right Shift",
+    "Number Pad -",
+    "Number Pad 3",
+    "F7",
+    "7",
+    "U",
+    "J",
+    "N",
+    "Right Alt",
+    "]",
+    "Right Control",
+    "Number Pad 4",
+    "Number Pad +",
+    "Number Pad 0",
+    "F8",
+    "8",
+    "I",
+    "K",
+    "M",
+    "Right Windows",
+    "\\ (ANSI)",
+    "Up Arrow",
+    "Number Pad 5",
+    "Number Pad Enter",
+    "Number Pad .",
+    "trip 1",
+    "trip 2",
+    "trip 3",
+    "trip 4",
+    "trip 5",
+    "trip 6",
+    "trip 7",
+    "trip 8",
+    "trip 9",
+    "trip 10",
+    "trip 11",
+    "trip 12",
+    "trip 13",
+    "trip 14",
+    "trip 15",
+    "trip 16",
+    "trip 17",
+    "trip 18",
+    "Media Previous",
+    "Media Play/Pause",
+    "Media Next",
+    "Media Mute"
 };
 
         public static uint NA = 0xFFFFFFFF;
@@ -175,35 +174,80 @@ namespace Driver.HyperXAlloy.RGB
         public int USB_INTERFACE = 0;
 
         public uint[] OrderOfKeys;
-
+        public XY[] humm;
+        public List<XY> xy;
+        public List<uint> order = new List<uint>();
         public class XY
         {
             public int X { get; set; }
             public int Y { get; set; }
             public uint Key { get; set; }
+            public int Order { get; set; }
+
+            public LEDColor Color { get; set; }
+            public string DebugName { get; set; }
+            public string DebugName2 { get; set; }
         }
         public HyperXKeyboardSupport(int vid, int pid, int usb)
         {
             List<uint> order = new List<uint>();
-            List<XY> xy = new List<XY>();
+            xy = new List<XY>();
+            int pp = 0;
+
+            humm = new XY[106];
             for (int x = 0; x < 23; x++)
             {
                 for (int y = 0; y < 6; y++)
                 {
                     var tt = matrixMap[y][x];
-                    if (tt != NA)
+                    if (tt == 4294967295)
                     {
-                        xy.Add(new XY
+
+                    }
+                    else
+                    {
+                        humm[tt] = new XY
                         {
                             X = x,
                             Y = y,
-                            Key = tt
-                        });
-                        Debug.WriteLine(tt);
-                        order.Add(tt);
+                            Order = (int) tt,
+                            DebugName = KeyNames[tt]
+                        };
                     }
+
                 }
             }
+
+            xy = humm.ToList();
+            //for (int x = 0; x < 23; x++)
+            //{
+            //    for (int y = 0; y < 6; y++)
+            //    {
+            //        var tt = matrixMap[y][x];
+            //        if (tt != NA)
+            //        {
+
+            //            int ypos = (int)(tt % 6);
+            //            int xpos = (int) ((tt - ypos) / 6);
+
+            //            var poopoo = new XY
+            //            {
+            //                X = x,
+            //                Y = y,
+            //                Key = tt,
+            //                Order = pp,
+            //                DebugName = KeyNames[pp],
+            //                DebugName2 = KeyNames[tt]
+            //            };
+
+            //            xy.Add(poopoo);
+            //             Debug.WriteLine(tt);
+            //            order.Add(tt);
+            //            pp++;
+            //        }
+                    
+            //    }
+            //}
 
             OrderOfKeys = order.ToArray();
 
@@ -253,6 +297,29 @@ namespace Driver.HyperXAlloy.RGB
             }
         }
 
+        public LEDColor[] From2D(ControlDevice.LedUnit[,] input)
+        {
+            var rrr = new LEDColor[106];
+            int ct = 0;
+            for (int y = 0; y < input.GetLength(1); y++)
+            {
+                for (int x = 0; x < input.GetLength(0); x++)
+                {
+                    var mm = matrixMap[y][x];
+                    if (mm != NA)
+                    {
+                        if (input[x, y] != null)
+                        {
+                            rrr[mm] = (input[x, y].Color);
+                            ct++;
+                        }
+                    }
+                }
+            }
+
+            return rrr.ToArray();
+        }
+
 
         public void SwitchProfile(byte profile, HidStream str = null)
         {
@@ -268,12 +335,15 @@ namespace Driver.HyperXAlloy.RGB
 
         public void SendColors(LEDColor[] colors)
         {
-            var red= BuildPacket(colors, PacketColor.Red);
-            var green= BuildPacket(colors, PacketColor.Green);
-            var blue= BuildPacket(colors, PacketColor.Blue);
+            var red = BuildPacket(colors, PacketColor.Red);
+            var green = BuildPacket(colors, PacketColor.Green);
+            var blue = BuildPacket(colors, PacketColor.Blue);
             stream.SendData(red);
+            Thread.Sleep(5);
             stream.SendData(green);
+            Thread.Sleep(5);
             stream.SendData(blue);
+            Thread.Sleep(5);
         }
 
         public enum PacketColor
@@ -293,20 +363,20 @@ namespace Driver.HyperXAlloy.RGB
             buf[2] = (byte)packetColor;
             buf[3] = 0xA0;
 
-
+            int ptr = 0;
             for (int ct = 0; ct < colors.Length; ct++)
             {
-                int rindex = (int)OrderOfKeys[ct];
+                ptr = ct;
+                int rindex = (int)OrderOfKeys[ptr];
 
                 var ledColor = colors[ct];
-                buf[keys[rindex]] = packetColor == PacketColor.Red ? (byte)ledColor.Red :
-                    packetColor == PacketColor.Green ? (byte)ledColor.Green : (byte)ledColor.Blue;
+                buf[keys[ct]] = packetColor == PacketColor.Red ? (byte)ledColor.Red : packetColor == PacketColor.Green ? (byte)ledColor.Green : (byte)ledColor.Blue;
 
             }
 
             return buf;
         }
-        
+
         public void SendDirectColorPacket(LEDColor[] colours)
         {
             byte[] buf = new byte[64];
