@@ -156,7 +156,7 @@ namespace Driver.HyperXAlloy.RGB
                 Id = Guid.Parse("a9440d02-bba3-4e35-a9a3-88b024cc0e2d"),
                 Author = "mad ninja",
                 Blurb = "Support for HyperX Alloy Elite RGB and HyperX Alloy FPS RGB",
-                CurrentVersion = new ReleaseNumber(1, 0, 0, 1),
+                CurrentVersion = new ReleaseNumber(1, 0, 0, 2),
                 GitHubLink = "https://github.com/SimpleLed/Driver.HyperXAlloy.RGB",
                 IsPublicRelease = true,
                 SupportsCustomConfig = false
