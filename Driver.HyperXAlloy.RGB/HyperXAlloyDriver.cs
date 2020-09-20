@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
+using SimpleLed.RawInput;
 using SimpleLed;
 
 namespace Driver.HyperXAlloy.RGB
@@ -35,10 +35,16 @@ namespace Driver.HyperXAlloy.RGB
 
         }
 
-        public void Configure(DriverDetails driverDetails)
+        public DriverHyperXAlloyRGB()
         {
 
         }
+        public void Configure(DriverDetails driverDetails)
+        {
+          
+        }
+
+        private HyperXAlloyRgbControlDevice dv;
 
         public List<ControlDevice> GetDevices()
         {
@@ -49,8 +55,8 @@ namespace Driver.HyperXAlloy.RGB
                 try
                 {
                     HyperXKeyboardSupport hyperX = new HyperXKeyboardSupport(sdevice.Vid, sdevice.Pid, sdevice.Usb);
-
-                    HyperXAlloyRgbControlDevice dv = new HyperXAlloyRgbControlDevice
+                    
+                    dv = new HyperXAlloyRgbControlDevice
                     {
                         Name = sdevice.Name,
                         DeviceType = DeviceTypes.Keyboard,
@@ -63,19 +69,21 @@ namespace Driver.HyperXAlloy.RGB
 
                     };
 
+                    KeyboardHelper.AddKeyboardWatcher(sdevice.Vid, sdevice.Pid, dv.HandleInput);
+
                     List<ControlDevice.LedUnit> leds = new List<ControlDevice.LedUnit>();
                     int ctt = 0;
                     var tled = new ControlDevice.LedUnit[106];
                     int ct = 0;
 
-                    foreach(var tp in hyperX.humm)
+                    foreach (var tp in hyperX.humm)
                     {
                         var ld = new ControlDevice.LedUnit
                         {
                             LEDName = HyperXKeyboardSupport.KeyNames[tp.Order],
                             Data = new ControlDevice.PositionalLEDData
                             {
-                                LEDNumber = Array.IndexOf(hyperX.humm,tp),
+                                LEDNumber = Array.IndexOf(hyperX.humm, tp),
                                 X = tp.X,
                                 Y = tp.Y
                             },
@@ -83,11 +91,11 @@ namespace Driver.HyperXAlloy.RGB
                         };
 
                         leds.Add(ld);
-                        
+
                     }
 
-                    dv.LEDs = leds.OrderBy(p=>((ControlDevice.PositionalLEDData)p.Data).X+ ((ControlDevice.PositionalLEDData)p.Data).Y).ToArray();
-
+                    dv.LEDs = leds.OrderBy(p => ((ControlDevice.PositionalLEDData)p.Data).X + ((ControlDevice.PositionalLEDData)p.Data).Y).ToArray();
+                    
                     devices.Add(dv);
                 }
                 catch
@@ -100,44 +108,38 @@ namespace Driver.HyperXAlloy.RGB
             return devices;
         }
 
+
+
+
+
+        private bool isWriting = false;
         public void Push(ControlDevice controlDevice)
         {
-            if (controlDevice.In2DMode)
+            if (isWriting)
             {
-                //controlDevice.SetGridLED(00, 0, new LEDColor(255, 255, 255));
-                //controlDevice.SetGridLED(00, 1, new LEDColor(255, 255, 255));
-                //controlDevice.SetGridLED(00, 2, new LEDColor(255, 255, 255));
-                //controlDevice.SetGridLED(00, 3, new LEDColor(255, 255, 255));
-                //controlDevice.SetGridLED(00, 4, new LEDColor(255, 255, 255));
-                //controlDevice.SetGridLED(00, 5, new LEDColor(255, 255, 255));
-                //controlDevice.SetGridLED(1, 0, new LEDColor(255, 0, 255));
-                //controlDevice.SetGridLED(1, 1, new LEDColor(255, 0, 255));
-                //controlDevice.SetGridLED(1, 2, new LEDColor(255, 0, 255));
-                //controlDevice.SetGridLED(1, 3, new LEDColor(255, 0, 255));
-                //controlDevice.SetGridLED(1, 4, new LEDColor(255, 0, 255));
-                //controlDevice.SetGridLED(1, 5, new LEDColor(255, 0, 255));
-                //controlDevice.SetGridLED(2, 0, new LEDColor(255, 0, 0));
-                //controlDevice.SetGridLED(2, 1, new LEDColor(255, 0, 0));
-                //controlDevice.SetGridLED(2, 2, new LEDColor(255, 0, 0));
-                //controlDevice.SetGridLED(2, 3, new LEDColor(255, 0, 0));
-                //controlDevice.SetGridLED(2, 4, new LEDColor(255, 0, 0));
-                //controlDevice.SetGridLED(2, 5, new LEDColor(255, 0, 0));
-                //controlDevice.SetGridLED(3, 0, new LEDColor(255, 255, 0));
-                //controlDevice.SetGridLED(3, 1, new LEDColor(255, 255, 0));
-                //controlDevice.SetGridLED(3, 2, new LEDColor(255, 255, 0));
-                //controlDevice.SetGridLED(3, 3, new LEDColor(255, 255, 0));
-                //controlDevice.SetGridLED(3, 4, new LEDColor(255, 255, 0));
-                //controlDevice.SetGridLED(3, 5, new LEDColor(255, 255, 0));
+                return;
 
-                var xxx = controlDevice.LEDs.OrderBy(p => p.Data.LEDNumber).ToList();
-                ((HyperXAlloyRgbControlDevice)controlDevice).HyperXSupport.SendColors(xxx.Select(x => x.Color).ToArray());
             }
-            else
+
+            isWriting = true;
+
+            Task.Run(() =>
             {
+                if (controlDevice.In2DMode)
+                {
+                    var xxx = controlDevice.LEDs.OrderBy(p => p.Data.LEDNumber).ToList();
+                    ((HyperXAlloyRgbControlDevice) controlDevice).HyperXSupport.SendColors(xxx.Select(x => x.Color)
+                        .ToArray());
+                }
+                else
+                {
 
-                ((HyperXAlloyRgbControlDevice)controlDevice).HyperXSupport.SendColors(controlDevice.LEDs
-                    .Select(x => x.Color).ToArray());
-            }
+                    ((HyperXAlloyRgbControlDevice) controlDevice).HyperXSupport.SendColors(controlDevice.LEDs
+                        .Select(x => x.Color).ToArray());
+                }
+
+                isWriting = false;
+            });
 
         }
 
@@ -156,7 +158,7 @@ namespace Driver.HyperXAlloy.RGB
                 Id = Guid.Parse("a9440d02-bba3-4e35-a9a3-88b024cc0e2d"),
                 Author = "mad ninja",
                 Blurb = "Support for HyperX Alloy Elite RGB and HyperX Alloy FPS RGB",
-                CurrentVersion = new ReleaseNumber(1, 0, 0, 2),
+                CurrentVersion = new ReleaseNumber(1, 0, 0, 5),
                 GitHubLink = "https://github.com/SimpleLed/Driver.HyperXAlloy.RGB",
                 IsPublicRelease = true,
                 SupportsCustomConfig = false
@@ -182,6 +184,27 @@ namespace Driver.HyperXAlloy.RGB
     public class HyperXAlloyRgbControlDevice : ControlDevice
     {
         public HyperXKeyboardSupport HyperXSupport { get; set; }
+        public void HandleInput(KeyPressEvent e)
+        {
+            var derp = HyperXSupport.humm.FirstOrDefault(x => x.DebugName == e.VKeyName);
+
+            if (derp != null)
+            {
+                
+                    TriggerAllMapped(new TriggerEventArgs
+                    {
+                        FloatX = (derp.X / (float)GridWidth),
+                        FloatY = (derp.Y / (float)GridHeight),
+                        X = derp.X,
+                        Y = derp.Y
+                    });
+
+            }
+            else
+            {
+                Debug.WriteLine("Key not found: " + e.VKeyName + " - " + e.VKey);
+            }
+        }
     }
 
     //public class HyperXKeyboardLed : ControlDevice.PositionalLEDData
