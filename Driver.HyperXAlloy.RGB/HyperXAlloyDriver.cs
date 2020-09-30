@@ -19,6 +19,8 @@ namespace Driver.HyperXAlloy.RGB
 
     public class DriverHyperXAlloyRGB : ISimpleLed
     {
+        public event EventHandler DeviceRescanRequired;
+
         private const int HYPERX_KEYBOARD_VID = 0x0951;
         const int HYPERX_ALLOY_ELITE_PID = 0x16BE;
         const int HYPERX_ALLOY_FPS_RGB_PID = 0x16DC;
@@ -39,6 +41,7 @@ namespace Driver.HyperXAlloy.RGB
         {
 
         }
+        
         public void Configure(DriverDetails driverDetails)
         {
           
@@ -158,7 +161,7 @@ namespace Driver.HyperXAlloy.RGB
                 Id = Guid.Parse("a9440d02-bba3-4e35-a9a3-88b024cc0e2d"),
                 Author = "mad ninja",
                 Blurb = "Support for HyperX Alloy Elite RGB and HyperX Alloy FPS RGB",
-                CurrentVersion = new ReleaseNumber(1, 0, 0, 5),
+                CurrentVersion = new ReleaseNumber(1, 0, 0, 6),
                 GitHubLink = "https://github.com/SimpleLed/Driver.HyperXAlloy.RGB",
                 IsPublicRelease = true,
                 SupportsCustomConfig = false
