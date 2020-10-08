@@ -161,7 +161,7 @@ namespace Driver.HyperXAlloy.RGB
                 Id = Guid.Parse("a9440d02-bba3-4e35-a9a3-88b024cc0e2d"),
                 Author = "mad ninja",
                 Blurb = "Support for HyperX Alloy Elite RGB and HyperX Alloy FPS RGB",
-                CurrentVersion = new ReleaseNumber(1, 0, 0, 6),
+                CurrentVersion = new ReleaseNumber(1, 0, 0, 7),
                 GitHubLink = "https://github.com/SimpleLed/Driver.HyperXAlloy.RGB",
                 IsPublicRelease = true,
                 SupportsCustomConfig = false
@@ -184,30 +184,19 @@ namespace Driver.HyperXAlloy.RGB
         }
     }
 
-    public class HyperXAlloyRgbControlDevice : ControlDevice
+    public class HyperXAlloyRgbControlDevice : InteractiveControlDevice
     {
         public HyperXKeyboardSupport HyperXSupport { get; set; }
-        public void HandleInput(KeyPressEvent e)
-        {
-            var derp = HyperXSupport.humm.FirstOrDefault(x => x.DebugName == e.VKeyName);
-
-            if (derp != null)
-            {
-                
-                    TriggerAllMapped(new TriggerEventArgs
-                    {
-                        FloatX = (derp.X / (float)GridWidth),
-                        FloatY = (derp.Y / (float)GridHeight),
-                        X = derp.X,
-                        Y = derp.Y
-                    });
-
-            }
-            else
-            {
-                Debug.WriteLine("Key not found: " + e.VKeyName + " - " + e.VKey);
-            }
-        }
+        //public void HandleInput(KeyPressEvent e)
+        //{
+        //    TriggerAllMapped(new TriggerEventArgs
+        //    {
+        //        FloatX = (e.XPosition / (float)GridWidth),
+        //        FloatY = (e.YPosition / (float)GridHeight),
+        //        X = e.XPosition,
+        //        Y = e.YPosition
+        //    });
+        //}
     }
 
     //public class HyperXKeyboardLed : ControlDevice.PositionalLEDData

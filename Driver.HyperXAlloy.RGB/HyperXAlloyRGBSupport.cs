@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using HidSharp;
+using Newtonsoft.Json;
 using SimpleLed;
 
 namespace Driver.HyperXAlloy.RGB
@@ -187,6 +188,7 @@ namespace Driver.HyperXAlloy.RGB
             public LEDColor Color { get; set; }
             public string DebugName { get; set; }
             public string DebugName2 { get; set; }
+            public int ScanCode { get; set; }
 
             public override string ToString() => $"{X},{Y} - {Key} / {DebugName}";
         }
@@ -213,14 +215,1083 @@ namespace Driver.HyperXAlloy.RGB
                             X = x,
                             Y = y,
                             Order = (int) tt,
-                            DebugName = KeyNames[tt]
+                            DebugName = KeyNames[tt],
+                            
                         };
                     }
 
                 }
             }
 
-            xy = humm.ToList();
+            string shitmap = @"[
+  {
+    ""X"": 0,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 0,
+    ""Color"": null,
+    ""DebugName"": ""ESC"",
+    ""DebugName2"": null,
+    ""ScanCode"": 1
+  },
+  {
+    ""X"": 0,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 1,
+    ""Color"": null,
+    ""DebugName"": ""OEM8"",
+    ""DebugName2"": null,
+    ""ScanCode"": 41
+    
+  },
+  {
+    ""X"": 0,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 2,
+    ""Color"": null,
+    ""DebugName"": ""TAB"",
+    ""DebugName2"": null,
+    ""ScanCode"": 15
+  },
+  {
+    ""X"": 0,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 3,
+    ""Color"": null,
+    ""DebugName"": ""CAPITAL"",
+    ""DebugName2"": null,
+    ""ScanCode"": 58
+  },
+  {
+    ""X"": 0,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 4,
+    ""Color"": null,
+    ""DebugName"": ""LSHIFT"",
+    ""DebugName2"": null,
+    ""ScanCode"": 42
+  },
+  {
+    ""X"": 0,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 5,
+    ""Color"": null,
+    ""DebugName"": ""LCONTROL"",
+    ""DebugName2"": null,
+    ""ScanCode"": 29
+  },
+  {
+    ""X"": 15,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 6,
+    ""Color"": null,
+    ""DebugName"": ""F12"",
+    ""DebugName2"": null,
+    ""ScanCode"": 88
+  },
+  {
+    ""X"": 13,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 7,
+    ""Color"": null,
+    ""DebugName"": ""OEMPLUS"",
+    ""DebugName2"": null,
+    ""ScanCode"": 13
+  },
+  {
+    ""X"": 12,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 8,
+    ""Color"": null,
+    ""DebugName"": ""F9"",
+    ""DebugName2"": null,
+    ""ScanCode"": 67
+  },
+  {
+    ""X"": 9,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 9,
+    ""Color"": null,
+    ""DebugName"": ""D9"",
+    ""DebugName2"": null,
+    ""ScanCode"": 10
+  },
+  {
+    ""X"": 11,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 10,
+    ""Color"": null,
+    ""DebugName"": ""O"",
+    ""DebugName2"": null,
+    ""ScanCode"": 24
+  },
+  {
+    ""X"": 11,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 11,
+    ""Color"": null,
+    ""DebugName"": ""L"",
+    ""DebugName2"": null,
+    ""ScanCode"": 38
+  },
+  {
+    ""X"": 11,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 12,
+    ""Color"": null,
+    ""DebugName"": ""OEMCOMMA"",
+    ""DebugName2"": null,
+    ""ScanCode"": 51
+  },
+  {
+    ""X"": 14,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 13,
+    ""Color"": null,
+    ""DebugName"": ""APPS"",
+    ""DebugName2"": null,
+    ""ScanCode"": 56
+  },
+  {
+    ""X"": 15,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 14,
+    ""Color"": null,
+    ""DebugName"": ""ENTER"",
+    ""DebugName2"": null,
+    ""ScanCode"": 28
+    
+  },
+  {
+    ""X"": 16,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 15,
+    ""Color"": null,
+    ""DebugName"": ""LEFT"",
+    ""DebugName2"": null,
+    ""ScanCode"": 107
+  },
+  {
+    ""X"": 2,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 16,
+    ""Color"": null,
+    ""DebugName"": ""F1"",
+    ""DebugName2"": null,
+    ""ScanCode"": 59
+  },
+  {
+    ""X"": 1,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 17,
+    ""Color"": null,
+    ""DebugName"": ""D1"",
+    ""DebugName2"": null,
+    ""ScanCode"": 2
+  },
+  {
+    ""X"": 2,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 18,
+    ""Color"": null,
+    ""DebugName"": ""Q"",
+    ""DebugName2"": null,
+    ""ScanCode"": 16
+  },
+  {
+    ""X"": 2,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 19,
+    ""Color"": null,
+    ""DebugName"": ""A"",
+    ""DebugName2"": null,
+    ""ScanCode"": 30
+  },
+  {
+    ""X"": 1,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 20,
+    ""Color"": null,
+    ""DebugName"": ""OEMPIPE"",
+    ""DebugName2"": null,
+    ""ScanCode"": 86
+  },
+  {
+    ""X"": 1,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 21,
+    ""Color"": null,
+    ""DebugName"": ""LWIN"",
+    ""DebugName2"": null,
+    ""ScanCode"": 91
+  },
+  {
+    ""X"": 16,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 22,
+    ""Color"": null,
+    ""DebugName"": ""PRINTSCREEN"",
+    ""DebugName2"": null,
+    ""ScanCode"": 55
+  },
+  {
+    ""X"": 13,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 23,
+    ""Color"": null,
+    ""DebugName"": ""F10"",
+    ""DebugName2"": null,
+    ""ScanCode"": 68
+  },
+  {
+    ""X"": 10,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 24,
+    ""Color"": null,
+    ""DebugName"": ""D0"",
+    ""DebugName2"": null,
+    ""ScanCode"": 11
+  },
+  {
+    ""X"": 12,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 25,
+    ""Color"": null,
+    ""DebugName"": ""P"",
+    ""DebugName2"": null,
+    ""ScanCode"": 25
+  },
+  {
+    ""X"": 12,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 26,
+    ""Color"": null,
+    ""DebugName"": ""OEMSEMICOLON"",
+    ""DebugName2"": null,
+    ""ScanCode"": 39
+  },
+  {
+    ""X"": 12,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 27,
+    ""Color"": null,
+    ""DebugName"": ""OEMPERIOD"",
+    ""DebugName2"": null,
+    ""ScanCode"": 52
+  },
+  {
+    ""X"": 14,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 28,
+    ""Color"": null,
+    ""DebugName"": ""ENTER"",
+    ""DebugName2"": null,
+    ""ScanCode"": 28
+  },
+  {
+    ""X"": 17,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 29,
+    ""Color"": null,
+    ""DebugName"": ""DOWN"",
+    ""DebugName2"": null,
+    ""ScanCode"": 72
+  },
+  {
+    ""X"": 3,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 30,
+    ""Color"": null,
+    ""DebugName"": ""F2"",
+    ""DebugName2"": null,
+    ""ScanCode"": 60
+  },
+  {
+    ""X"": 2,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 31,
+    ""Color"": null,
+    ""DebugName"": ""D2"",
+    ""DebugName2"": null,
+    ""ScanCode"": 3
+  },
+  {
+    ""X"": 3,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 32,
+    ""Color"": null,
+    ""DebugName"": ""W"",
+    ""DebugName2"": null,
+    ""ScanCode"": 17
+  },
+  {
+    ""X"": 3,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 33,
+    ""Color"": null,
+    ""DebugName"": ""S"",
+    ""DebugName2"": null,
+    ""ScanCode"": 31
+  },
+  {
+    ""X"": 2,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 34,
+    ""Color"": null,
+    ""DebugName"": ""Z"",
+    ""DebugName2"": null,
+    ""ScanCode"": 44
+  },
+  {
+    ""X"": 2,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 35,
+    ""Color"": null,
+    ""DebugName"": ""LMENU"",
+    ""DebugName2"": null,
+    ""ScanCode"": 56
+  },
+  {
+    ""X"": 17,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 36,
+    ""Color"": null,
+    ""DebugName"": ""SCROLL"",
+    ""DebugName2"": null,
+    ""ScanCode"": 70
+  },
+  {
+    ""X"": 14,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 37,
+    ""Color"": null,
+    ""DebugName"": ""BACK"",
+    ""DebugName2"": null,
+    ""ScanCode"": 14
+  },
+  {
+    ""X"": 14,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 38,
+    ""Color"": null,
+    ""DebugName"": ""F11"",
+    ""DebugName2"": null    ,
+    ""ScanCode"": 87
+  },
+  {
+    ""X"": 12,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 39,
+    ""Color"": null,
+    ""DebugName"": ""OEMMINUS"",
+    ""DebugName2"": null,
+    ""ScanCode"": 12
+  },
+  {
+    ""X"": 13,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 40,
+    ""Color"": null,
+    ""DebugName"": ""OEMOPENBRACKETS"",
+    ""DebugName2"": null,
+    ""ScanCode"": 26
+  },
+  {
+    ""X"": 13,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 41,
+    ""Color"": null,
+    ""DebugName"": ""OEMTILDE"",
+    ""DebugName2"": null,
+    ""ScanCode"": 41
+  },
+  {
+    ""X"": 13,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 42,
+    ""Color"": null,
+    ""DebugName"": ""OEMQUESTION"",
+    ""DebugName2"": null,
+    ""ScanCode"": 53
+  },
+  {
+    ""X"": 18,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 43,
+    ""Color"": null,
+    ""DebugName"": ""RIGHT"",
+    ""DebugName2"": null,
+    ""ScanCode"": 77
+  },
+  {
+    ""X"": 4,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 44,
+    ""Color"": null,
+    ""DebugName"": ""F3"",
+    ""DebugName2"": null,
+    ""ScanCode"": 61
+  },
+  {
+    ""X"": 3,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 45,
+    ""Color"": null,
+    ""DebugName"": ""D3"",
+    ""DebugName2"": null,
+    ""ScanCode"": 4
+  },
+  {
+    ""X"": 4,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 46,
+    ""Color"": null,
+    ""DebugName"": ""E"",
+    ""DebugName2"": null,
+    ""ScanCode"": 18
+  },
+  {
+    ""X"": 4,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 47,
+    ""Color"": null,
+    ""DebugName"": ""D"",
+    ""DebugName2"": null,
+    ""ScanCode"": 32
+  },
+  {
+    ""X"": 3,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 48,
+    ""Color"": null,
+    ""DebugName"": ""X"",
+    ""DebugName2"": null,
+    ""ScanCode"": 45
+  },
+  {
+    ""X"": 18,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 49,
+    ""Color"": null,
+    ""DebugName"": ""PAUSE"",
+    ""DebugName2"": null
+    ,
+    ""ScanCode"": 29
+  },
+  {
+    ""X"": 16,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 50,
+    ""Color"": null,
+    ""DebugName"": ""DELETE"",
+    ""DebugName2"": null,
+    ""ScanCode"": 83
+  },
+  {
+    ""X"": 19,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 51,
+    ""Color"": null,
+    ""DebugName"": ""NUMPAD7"",
+    ""DebugName2"": null,
+    ""ScanCode"": 71
+  },
+  {
+    ""X"": 19,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 52,
+    ""Color"": null,
+    ""DebugName"": ""NUMLOCK"",
+    ""DebugName2"": null,
+    ""ScanCode"": 69
+  },
+  {
+    ""X"": 21,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 53,
+    ""Color"": null,
+    ""DebugName"": ""NUMPAD6"",
+    ""DebugName2"": null,
+    ""ScanCode"": 77
+  },
+  {
+    ""X"": 5,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 54,
+    ""Color"": null,
+    ""DebugName"": ""F4"",
+    ""DebugName2"": null,
+    ""ScanCode"": 62
+  },
+  {
+    ""X"": 4,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 55,
+    ""Color"": null,
+    ""DebugName"": ""D4"",
+    ""DebugName2"": null,
+    ""ScanCode"": 5
+  },
+  {
+    ""X"": 5,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 56,
+    ""Color"": null,
+    ""DebugName"": ""R"",
+    ""DebugName2"": null,
+    ""ScanCode"": 19
+  },
+  {
+    ""X"": 5,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 57,
+    ""Color"": null,
+    ""DebugName"": ""F"",
+    ""DebugName2"": null,
+    ""ScanCode"": 33
+  },
+  {
+    ""X"": 4,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 58,
+    ""Color"": null,
+    ""DebugName"": ""C"",
+    ""DebugName2"": null,
+    ""ScanCode"": 46
+  },
+  {
+    ""X"": 7,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 59,
+    ""Color"": null,
+    ""DebugName"": ""SPACE"",
+    ""DebugName2"": null,
+    ""ScanCode"": 57
+  },
+  {
+    ""X"": 16,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 60,
+    ""Color"": null,
+    ""DebugName"": ""INSERT"",
+    ""DebugName2"": null,
+    ""ScanCode"": 82
+  },
+  {
+    ""X"": 17,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 61,
+    ""Color"": null,
+    ""DebugName"": ""END"",
+    ""DebugName2"": null,
+    ""ScanCode"": 79
+  },
+  {
+    ""X"": 20,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 62,
+    ""Color"": null,
+    ""DebugName"": ""NUMPAD8"",
+    ""DebugName2"": null,
+    ""ScanCode"": 72
+  },
+  {
+    ""X"": 20,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 63,
+    ""Color"": null,
+    ""DebugName"": ""DIVIDE"",
+    ""DebugName2"": null,
+    ""ScanCode"": 53
+  },
+  {
+    ""X"": 19,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 64,
+    ""Color"": null,
+    ""DebugName"": ""NUMPAD1"",
+    ""DebugName2"": null,
+    ""ScanCode"": 79
+  },
+  {
+    ""X"": 7,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 65,
+    ""Color"": null,
+    ""DebugName"": ""F5"",
+    ""DebugName2"": null,
+    ""ScanCode"": 63
+  },
+  {
+    ""X"": 5,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 66,
+    ""Color"": null,
+    ""DebugName"": ""D5"",
+    ""DebugName2"": null,
+    ""ScanCode"": 6
+  },
+  {
+    ""X"": 7,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 67,
+    ""Color"": null,
+    ""DebugName"": ""T"",
+    ""DebugName2"": null,
+    ""ScanCode"": 20
+  },
+  {
+    ""X"": 7,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 68,
+    ""Color"": null,
+    ""DebugName"": ""G"",
+    ""DebugName2"": null,
+    ""ScanCode"": 34
+  },
+  {
+    ""X"": 5,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 69,
+    ""Color"": null,
+    ""DebugName"": ""V"",
+    ""DebugName2"": null,
+    ""ScanCode"": 47
+  },
+  {
+    ""X"": 17,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 70,
+    ""Color"": null,
+    ""DebugName"": ""HOME"",
+    ""DebugName2"": null,
+    ""ScanCode"": 71
+  },
+  {
+    ""X"": 18,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 71,
+    ""Color"": null,
+    ""DebugName"": ""NEXT"",
+    ""DebugName2"": null,
+    ""ScanCode"": 81
+  },
+  {
+    ""X"": 21,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 72,
+    ""Color"": null,
+    ""DebugName"": ""NUMPAD9"",
+    ""DebugName2"": null,
+    ""ScanCode"": 73
+  },
+  {
+    ""X"": 21,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 73,
+    ""Color"": null,
+    ""DebugName"": ""MULTIPLY"",
+    ""DebugName2"": null,
+    ""ScanCode"": 55
+  },
+  {
+    ""X"": 20,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 74,
+    ""Color"": null,
+    ""DebugName"": ""NUMPAD2"",
+    ""DebugName2"": null,
+    ""ScanCode"": 80
+  },
+  {
+    ""X"": 8,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 75,
+    ""Color"": null,
+    ""DebugName"": ""F6"",
+    ""DebugName2"": null,
+    ""ScanCode"": 64
+  },
+  {
+    ""X"": 6,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 76,
+    ""Color"": null,
+    ""DebugName"": ""D6"",
+    ""DebugName2"": null,
+    ""ScanCode"": 7
+  },
+  {
+    ""X"": 8,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 77,
+    ""Color"": null,
+    ""DebugName"": ""Y"",
+    ""DebugName2"": null,
+    ""ScanCode"": 21
+  },
+  {
+    ""X"": 8,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 78,
+    ""Color"": null,
+    ""DebugName"": ""H"",
+    ""DebugName2"": null,
+    ""ScanCode"": 35
+  },
+  {
+    ""X"": 7,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 79,
+    ""Color"": null,
+    ""DebugName"": ""B"",
+    ""DebugName2"": null,
+    ""ScanCode"": 48
+  },
+  {
+    ""X"": 18,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 80,
+    ""Color"": null,
+    ""DebugName"": ""PRIOR"",
+    ""DebugName2"": null,
+    ""ScanCode"": 73
+  },
+  {
+    ""X"": 14,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 81,
+    ""Color"": null,
+    ""DebugName"": ""RSHIFT"",
+    ""DebugName2"": null,
+    ""ScanCode"": 54
+  },
+  {
+    ""X"": 22,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 82,
+    ""Color"": null,
+    ""DebugName"": ""SUBTRACT"",
+    ""DebugName2"": null,
+    ""ScanCode"": 74
+  },
+  {
+    ""X"": 21,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 83,
+    ""Color"": null,
+    ""DebugName"": ""NUMPAD3"",
+    ""DebugName2"": null,
+    ""ScanCode"": 81
+  },
+  {
+    ""X"": 9,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 84,
+    ""Color"": null,
+    ""DebugName"": ""F7"",
+    ""DebugName2"": null,
+    ""ScanCode"": 65
+  },
+  {
+    ""X"": 7,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 85,
+    ""Color"": null,
+    ""DebugName"": ""D7"",
+    ""DebugName2"": null,
+    ""ScanCode"": 8
+  },
+  {
+    ""X"": 9,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 86,
+    ""Color"": null,
+    ""DebugName"": ""U"",
+    ""DebugName2"": null,
+    ""ScanCode"": 22
+  },
+  {
+    ""X"": 9,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 87,
+    ""Color"": null,
+    ""DebugName"": ""J"",
+    ""DebugName2"": null,
+    ""ScanCode"": 36
+  },
+  {
+    ""X"": 9,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 88,
+    ""Color"": null,
+    ""DebugName"": ""N"",
+    ""DebugName2"": null,
+    ""ScanCode"": 49
+  },
+  {
+    ""X"": 12,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 89,
+    ""Color"": null,
+    ""DebugName"": ""RMENU"",
+    ""DebugName2"": null,
+    ""ScanCode"": 56
+  },
+  {
+    ""X"": 14,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 90,
+    ""Color"": null,
+    ""DebugName"": ""OEMCLOSEBRACKETS"",
+    ""DebugName2"": null,
+    ""ScanCode"": 27
+  },
+  {
+    ""X"": 15,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 91,
+    ""Color"": null,
+    ""DebugName"": ""RCONTROL"",
+    ""DebugName2"": null,
+    ""ScanCode"": 29
+  },
+  {
+    ""X"": 19,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 92,
+    ""Color"": null,
+    ""DebugName"": ""NUMPAD4"",
+    ""DebugName2"": null,
+    ""ScanCode"": 75
+  },
+  {
+    ""X"": 22,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 93,
+    ""Color"": null,
+    ""DebugName"": ""ADD"",
+    ""DebugName2"": null,
+    ""ScanCode"": 78
+  },
+  {
+    ""X"": 19,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 94,
+    ""Color"": null,
+    ""DebugName"": ""NUMPAD0"",
+    ""DebugName2"": null,
+    ""ScanCode"": 82
+  },
+  {
+    ""X"": 10,
+    ""Y"": 0,
+    ""Key"": 0,
+    ""Order"": 95,
+    ""Color"": null,
+    ""DebugName"": ""F8"",
+    ""DebugName2"": null,
+    ""ScanCode"": 88
+  },
+  {
+    ""X"": 8,
+    ""Y"": 1,
+    ""Key"": 0,
+    ""Order"": 96,
+    ""Color"": null,
+    ""DebugName"": ""D8"",
+    ""DebugName2"": null,
+    ""ScanCode"": 9
+  },
+  {
+    ""X"": 10,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 97,
+    ""Color"": null,
+    ""DebugName"": ""I"",
+    ""DebugName2"": null,
+    ""ScanCode"": 23
+  },
+  {
+    ""X"": 10,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 98,
+    ""Color"": null,
+    ""DebugName"": ""K"",
+    ""DebugName2"": null,
+    ""ScanCode"": 37
+  },
+  {
+    ""X"": 10,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 99,
+    ""Color"": null,
+    ""DebugName"": ""M"",
+    ""DebugName2"": null,
+    ""ScanCode"": 50
+  },
+  {
+    ""X"": 13,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 100,
+    ""Color"": null,
+    ""DebugName"": ""RWIN"",
+    ""DebugName2"": null,
+    ""ScanCode"": 92
+  },
+  {
+    ""X"": 15,
+    ""Y"": 2,
+    ""Key"": 0,
+    ""Order"": 101,
+    ""Color"": null,
+    ""DebugName"": ""OEMPIPE"",
+    ""DebugName2"": null,
+    ""ScanCode"": 43
+  },
+  {
+    ""X"": 17,
+    ""Y"": 4,
+    ""Key"": 0,
+    ""Order"": 102,
+    ""Color"": null,
+    ""DebugName"": ""UP"",
+    ""DebugName2"": null,
+    ""ScanCode"": 72
+  },
+  {
+    ""X"": 20,
+    ""Y"": 3,
+    ""Key"": 0,
+    ""Order"": 103,
+    ""Color"": null,
+    ""DebugName"": ""NUMPAD5"",
+    ""DebugName2"": null,
+    ""ScanCode"": 76
+  },
+  {
+    ""X"": 21,
+    ""Y"": 5,
+    ""Key"": 0,
+    ""Order"": 105,
+    ""Color"": null,
+    ""DebugName"": ""DECIMAL"",
+    ""DebugName2"": null,
+    ""ScanCode"": 83
+  }
+]";
+
+            //xy = JsonConvert.DeserializeObject<List<XY>>(shitmap);
+            //Debug.WriteLine("---------------------");
+            //foreach (XY xy1 in xy)
+            //{
+            //    Debug.Write(xy1.X+","+xy1.Y+","+xy1.ScanCode+",");
+            //}
+
+            //Debug.WriteLine("");
+            //Debug.WriteLine("---------------------");
+            //string jshumm = JsonConvert.SerializeObject(xy);
+            //Debug.WriteLine(jshumm);
+
+
             //for (int x = 0; x < 23; x++)
             //{
             //    for (int y = 0; y < 6; y++)
@@ -247,13 +1318,16 @@ namespace Driver.HyperXAlloy.RGB
             //            order.Add(tt);
             //            pp++;
             //        }
-                    
+
             //    }
             //}
 
+
+            xy = humm.ToList();
+
             OrderOfKeys = order.ToArray();
 
-            OrderOfKeys = xy.OrderBy(p => p.X + p.Y).Select(p => p.Key).ToArray();
+            OrderOfKeys = xy.OrderBy(p => (p.X*6) + p.Y).Select(p => p.Key).ToArray();
 
             VENDOR_ID = vid;
 
