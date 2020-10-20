@@ -41,77 +41,20 @@ namespace Driver.HyperXAlloy.RGB
         {
 
         }
-        
+
+        public event Events.DeviceChangeEventHandler DeviceAdded;
+        public event Events.DeviceChangeEventHandler DeviceRemoved;
+
+        List<ControlDevice> foundDevices =new List<ControlDevice>();
         public void Configure(DriverDetails driverDetails)
         {
-          
+            SLSManager.GetSupportedDevices(supportedDevices.Select(x=>new USBDevice { HID = x.Pid, VID = x.Vid} ).ToList()).ForEach(x=>InterestedUSBChange(x.VID,x.HID.Value, true));
         }
 
         private HyperXAlloyRgbControlDevice dv;
 
-        public List<ControlDevice> GetDevices()
-        {
-            List<ControlDevice> devices = new List<ControlDevice>();
-
-            foreach (var sdevice in supportedDevices)
-            {
-                try
-                {
-                    HyperXKeyboardSupport hyperX = new HyperXKeyboardSupport(sdevice.Vid, sdevice.Pid, sdevice.Usb);
-                    
-                    dv = new HyperXAlloyRgbControlDevice
-                    {
-                        Name = sdevice.Name,
-                        DeviceType = DeviceTypes.Keyboard,
-                        Driver = this,
-                        ProductImage = Assembly.GetExecutingAssembly().GetEmbeddedImage("Driver.HyperXAlloy.RGB." + sdevice.Name + ".png"),
-                        HyperXSupport = hyperX,
-                        GridHeight = 6,
-                        GridWidth = 23,
-                        Has2DSupport = true,
-
-                    };
-
-                    KeyboardHelper.AddKeyboardWatcher(sdevice.Vid, sdevice.Pid, dv.HandleInput);
-
-                    List<ControlDevice.LedUnit> leds = new List<ControlDevice.LedUnit>();
-                    int ctt = 0;
-                    var tled = new ControlDevice.LedUnit[106];
-                    int ct = 0;
-
-                    foreach (var tp in hyperX.humm)
-                    {
-                        var ld = new ControlDevice.LedUnit
-                        {
-                            LEDName = HyperXKeyboardSupport.KeyNames[tp.Order],
-                            Data = new ControlDevice.PositionalLEDData
-                            {
-                                LEDNumber = Array.IndexOf(hyperX.humm, tp),
-                                X = tp.X,
-                                Y = tp.Y
-                            },
-
-                        };
-
-                        leds.Add(ld);
-
-                    }
-
-                    dv.LEDs = leds.OrderBy(p => ((ControlDevice.PositionalLEDData)p.Data).X + ((ControlDevice.PositionalLEDData)p.Data).Y).ToArray();
-                    
-                    devices.Add(dv);
-                }
-                catch
-                {
-
-                }
-
-            }
-
-            return devices;
-        }
-
-
+        List<ControlDevice> devices = new List<ControlDevice>();
+     
 
 
 
@@ -164,7 +107,13 @@ namespace Driver.HyperXAlloy.RGB
                 CurrentVersion = new ReleaseNumber(1, 0, 0, 7),
                 GitHubLink = "https://github.com/SimpleLed/Driver.HyperXAlloy.RGB",
                 IsPublicRelease = true,
-                SupportsCustomConfig = false
+                SupportsCustomConfig = false,
+                SupportedDevices = new List<USBDevice>
+                {
+                    new USBDevice(){ VID=HYPERX_KEYBOARD_VID, HID = HYPERX_ALLOY_FPS_RGB_PID},
+                    new USBDevice(){ VID=HYPERX_KEYBOARD_VID, HID = HYPERX_ALLOY_ELITE_PID}
+                }
+                
             };
         }
 
@@ -182,25 +131,72 @@ namespace Driver.HyperXAlloy.RGB
         {
             return "HyperX Alloy RGB";
         }
+
+        public void InterestedUSBChange(int VID, int PID, bool connected)
+        {
+            if (!connected)
+            {
+                var dev = devices.First(x => x is HyperXAlloyRgbControlDevice hx && hx.HID == PID);
+
+                devices.Remove(dev);
+                DeviceRemoved?.Invoke(this, new Events.DeviceChangeEventArgs(dev));
+            }
+            else
+            {
+                var sdevice = supportedDevices.First(x => x.Pid == PID);
+
+                HyperXKeyboardSupport hyperX = new HyperXKeyboardSupport(sdevice.Vid, sdevice.Pid, sdevice.Usb);
+
+                dv = new HyperXAlloyRgbControlDevice
+                {
+                    Name = sdevice.Name,
+                    DeviceType = DeviceTypes.Keyboard,
+                    Driver = this,
+                    ProductImage = Assembly.GetExecutingAssembly().GetEmbeddedImage("Driver.HyperXAlloy.RGB." + sdevice.Name + ".png"),
+                    HyperXSupport = hyperX,
+                    GridHeight = 6,
+                    GridWidth = 23,
+                    Has2DSupport = true,
+                    HID = sdevice.Pid
+                };
+
+                KeyboardHelper.AddKeyboardWatcher(sdevice.Vid, sdevice.Pid, dv.HandleInput);
+
+                List<ControlDevice.LedUnit> leds = new List<ControlDevice.LedUnit>();
+                int ctt = 0;
+                var tled = new ControlDevice.LedUnit[106];
+                int ct = 0;
+
+                foreach (var tp in hyperX.humm)
+                {
+                    var ld = new ControlDevice.LedUnit
+                    {
+                        LEDName = HyperXKeyboardSupport.KeyNames[tp.Order],
+                        Data = new ControlDevice.PositionalLEDData
+                        {
+                            LEDNumber = Array.IndexOf(hyperX.humm, tp),
+                            X = tp.X,
+                            Y = tp.Y
+                        },
+
+                    };
+
+                    leds.Add(ld);
+
+                }
+
+                dv.LEDs = leds.OrderBy(p => ((ControlDevice.PositionalLEDData)p.Data).X + ((ControlDevice.PositionalLEDData)p.Data).Y).ToArray();
+
+                devices.Add(dv);
+                DeviceAdded?.Invoke(this, new Events.DeviceChangeEventArgs(dv));
+            }
+        }
     }
 
     public class HyperXAlloyRgbControlDevice : InteractiveControlDevice
     {
+        public int HID { get; set; }
         public HyperXKeyboardSupport HyperXSupport { get; set; }
-        //public void HandleInput(KeyPressEvent e)
-        //{
-        //    TriggerAllMapped(new TriggerEventArgs
-        //    {
-        //        FloatX = (e.XPosition / (float)GridWidth),
-        //        FloatY = (e.YPosition / (float)GridHeight),
-        //        X = e.XPosition,
-        //        Y = e.YPosition
-        //    });
-        //}
+     
     }
-
-    //public class HyperXKeyboardLed : ControlDevice.PositionalLEDData
-    //{
-    //   public int 
-    //}
 }
